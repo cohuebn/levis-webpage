@@ -6,16 +6,19 @@ import {
   TextField,
 } from "@mui/material";
 import { useState } from "react";
+import Image from "next/image";
 
 type CharacterOption = {
   label: string;
+  source: string;
 };
 
 export default function Index() {
   const options: CharacterOption[] = [
-    { label: "Wario" },
-    { label: "Wario and Waluigi" },
-    { label: "Yoshi" },
+    { label: "Wario", source: "/wario.png" },
+    { label: "Wario and Waluigi", source: "/wario-and-waluigi.jpg" },
+    { label: "Yoshi", source: "/yoshi.webp" },
+    { label: "King Boo", source: "/king-boo.webp" },
   ];
   const [selectedCharacter, selectCharacter] = useState<CharacterOption | null>(
     null
@@ -36,11 +39,16 @@ export default function Index() {
             selectCharacter(newCharacter);
           }}
         />
-        <p>
-          {selectedCharacter
-            ? selectedCharacter.label
-            : "No character selected"}
-        </p>
+        {selectedCharacter ? (
+          <Image
+            src={selectedCharacter.source}
+            alt={selectedCharacter.label}
+            width={300}
+            height={300}
+          />
+        ) : (
+          <p>No character selected</p>
+        )}
       </Box>
     </Container>
   );
