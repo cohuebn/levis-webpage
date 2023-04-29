@@ -40,7 +40,7 @@ export default function Index() {
     { label: "Morton", source: "/Morton.png" },
     { label: "Lemmy", source: "/Lemmy_SSBU.webp" },
     { label: "Roy", source: "/Roy.png" },
-    { label: "Lucito", source: "/Lucito" },
+    { label: "Lakitu", source: "/lakitu.webp" },
     { label: "Toad", source: "/Toad.png" },
     { label: "Toadette", source: "/Toadette.png" },
     { label: "Gradpa Toad", source: "/toad-grandpa.png" },
