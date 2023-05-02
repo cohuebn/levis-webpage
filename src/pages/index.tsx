@@ -46,6 +46,16 @@ export default function Index() {
     { label: "Gradpa Toad", source: "/toad-grandpa.png" },
     { label: "Daisy", source: "/daisy.png" },
     { label: "Bullet Bill", source: "/bullet-bill.png" },
+    { label: "Didy-Kong", source: "/D.D.K.png" },
+    { label: "Dixie Kong", source: "/D.X.K.png" },
+    { label: "Crankey Kong", source: "/C.K.png" },
+    { label: "Funkey Kong", source: "/F.K.png" },
+    { label: "Paratroopa", source: "/Paratroopa.png" },
+    { label: "Dry Bones", source: "/Dry-Bones.png" },
+    { label: "Birdo", source: "Birdo.png" },
+    { label: "Piranha Plant", source: "/Prana.png" },
+    { label: "Shy Guy", source: "/Shy-guy.png" },
+    { label: "Pety Piranha", source: "/P.P.webph" },
   ];
   const [selectedCharacter, selectCharacter] = useState<CharacterOption | null>(
     null
@@ -67,12 +77,15 @@ export default function Index() {
           }}
         />
         {selectedCharacter ? (
-          <Image
-            src={selectedCharacter.source}
-            alt={selectedCharacter.label}
-            width={300}
-            height={300}
-          />
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Image
+              src={selectedCharacter.source}
+              alt={selectedCharacter.label}
+              width={300} // Overridden by style
+              height={300}
+              style={{ marginTop: "4rem", width: "auto" }}
+            />
+          </div>
         ) : (
           <p>No character selected</p>
         )}
