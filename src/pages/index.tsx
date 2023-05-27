@@ -60,6 +60,7 @@ export default function Index() {
   const [selectedCharacter, selectCharacter] = useState<CharacterOption | null>(
     null
   );
+
   return (
     <Container maxWidth="sm">
       <Box sx={{ my: 4 }}>
