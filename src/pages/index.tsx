@@ -79,14 +79,14 @@ export default function Index() {
     null
   );
   const [isLoggedIn, login] = useState<boolean>(false);
-  const [isSender,setSender]= useState<boolean>(false);
-  const [message, setMessage]= useState<string>("")
+  const [isSender, setSender] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("")
 
   function handleLogin() {
     login(true);
   }
 
-  function handleSendMessage() { 
+  function handleSendMessage() {
     setSender(true)
   }
 
@@ -131,10 +131,10 @@ export default function Index() {
           ) : (
             <p>No character selected</p>
           )}
-          <TextField id="filled-basic" label="Filled" variant="filled"multiline
-          maxRows={5}  value={message} onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setMessage(event.target.value);
-          }}/>
+          <TextField id="filled-basic" label="Filled" variant="filled" multiline
+            maxRows={5} value={message} onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setMessage(event.target.value);
+            }} />
           <Button onClick={handleSendMessage}>Open simple snackbar</Button>
 
           <Snackbar
