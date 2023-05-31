@@ -4,9 +4,16 @@ import {
   Typography,
   Autocomplete,
   TextField,
+  AppBar,
+  Toolbar,
+  Button,
+  Avatar,
+  Tooltip,
+  Snackbar,
 } from "@mui/material";
 import { useState } from "react";
 import Image from "next/image";
+import { Messages } from "@/components/messages";
 
 type CharacterOption = {
   label: string;
@@ -22,7 +29,7 @@ export default function Index() {
     { label: "Goomba", source: "/Goomba.png" },
     { label: "Luigi", source: "/luigi.png" },
     { label: "King Bob-omb", source: "/king-bomb.png" },
-    { label: "Bomb omb", source: "/bob-omb.webp" },
+    { label: "Bomb-omb", source: "/bob-omb.webp" },
     { label: "Chain Chomp", source: "/CC.png" },
     { label: "Kamek", source: "/kamek.png" },
     { label: "Larry", source: "/Larry.png" },
@@ -46,7 +53,7 @@ export default function Index() {
     { label: "Gradpa Toad", source: "/toad-grandpa.png" },
     { label: "Daisy", source: "/daisy.png" },
     { label: "Bullet Bill", source: "/bullet-bill.png" },
-    { label: "Didy-Kong", source: "/D.D.K.png" },
+    { label: "Diddy Kong", source: "/D.D.K.png" },
     { label: "Dixie Kong", source: "/D.X.K.png" },
     { label: "Crankey Kong", source: "/C.K.png" },
     { label: "Funkey Kong", source: "/F.K.png" },
@@ -55,42 +62,99 @@ export default function Index() {
     { label: "Birdo", source: "Birdo.png" },
     { label: "Piranha Plant", source: "/Prana.png" },
     { label: "Shy Guy", source: "/Shy-guy.png" },
-    { label: "Pety Piranha", source: "/P.P.webph" },
+    { label: "Petey Piranha", source: "/P.P.webph" },
+    { label: "Wiggler", source: "/Wigaler.png" },
+    { label: "Boom Boom", source: "/Boom Boom.png" },
+    { label: "Pom Pom", source: "/P.P.png" },
+    { label: "Fire Ball", source: "/Fire Ball.png" },
+    { label: "Mario and Luigi", source: "/M.L.png" },
+    { label: "Waluigi", source: "/Waluigi.png" },
+    { label: "Big Cheap Cheap", source: "/big cheap cheap.png" },
+    { label: "Cheap Cheap", source: "/Cheap-Cheap.png" },
+    { label: "Blooper", source: "/Blooper.png" },
+    { label: "Rosalina", source: "/Rosealinea.png" },
   ];
   const [selectedCharacter, selectCharacter] = useState<CharacterOption | null>(
     null
   );
+  const [isLoggedIn, login] = useState<boolean>(false);
+  const [isSender, setSender] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+
+  function handleLogin() {
+    login(true);
+  }
+
+  function handleSendMessage() {
+    setSender(true);
+  }
+
+  function handleClose() {}
+
+  function action() {}
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Mario Picker
-        </Typography>
-        <Autocomplete
-          id="character name"
-          options={options}
-          renderInput={(params) => (
-            <TextField {...params} label="character name" variant="filled" />
+    <>
+      <AppBar position="relative">
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            Mario Picker
+          </Typography>
+          {isLoggedIn ? (
+            <Tooltip title="Levi Huebner">
+              <Avatar alt="Levi Huebner" src="/levi.jpg" />
+            </Tooltip>
+          ) : (
+            <Button color="inherit" onClick={handleLogin}>
+              Login
+            </Button>
           )}
-          onChange={(_event: unknown, newCharacter: CharacterOption | null) => {
-            selectCharacter(newCharacter);
-          }}
-        />
-        {selectedCharacter ? (
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Image
-              src={selectedCharacter.source}
-              alt={selectedCharacter.label}
-              width={300} // Overridden by style
-              height={300}
-              style={{ marginTop: "4rem", width: "auto" }}
-            />
-          </div>
-        ) : (
-          <p>No character selected</p>
-        )}
-      </Box>
-    </Container>
+        </Toolbar>
+      </AppBar>
+      <Container maxWidth="sm">
+        <Box sx={{ marginTop: 4 }}>
+          <Autocomplete
+            id="character name"
+            options={options}
+            renderInput={(params) => (
+              <TextField {...params} label="character name" variant="filled" />
+            )}
+            onChange={(
+              _event: unknown,
+              newCharacter: CharacterOption | null
+            ) => {
+              selectCharacter(newCharacter);
+            }}
+          />
+          {selectedCharacter ? (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Image
+                src={selectedCharacter.source}
+                alt={selectedCharacter.label}
+                width={300} // Overridden by style
+                height={300}
+                style={{ marginTop: "4rem", width: "auto" }}
+              />
+            </div>
+          ) : (
+            <p>No character selected</p>
+          )}
+          <TextField
+            id="filled-basic"
+            label="Filled"
+            variant="filled"
+            multiline
+            maxRows={5}
+            value={message}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              setMessage(event.target.value);
+            }}
+          />
+          <Button onClick={handleSendMessage}>Open simple snackbar</Button>
+
+          <Messages />
+        </Box>
+      </Container>
+    </>
   );
 }
