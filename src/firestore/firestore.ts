@@ -1,25 +1,42 @@
-import { getFirestore, doc, onSnapshot } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  onSnapshot,
+  DocumentData,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 import { firebaseApp } from "./firebaseApp";
+import { isNotNullOrUndefined } from "@/utils/is-not-null-or-undefined";
 
 const db = () => getFirestore(firebaseApp);
 
+type Message = {
+  message: string;
+  timestamp: Date;
+};
+
+function validateMessage(data: DocumentData | undefined): data is Message {
+  return isNotNullOrUndefined(data) && "message" in data && "timestamp" in data;
+}
+
 export function useMessageSubscription() {
-  const [currentMessage, setCurrentMessage] = useState<string | null>(null);
+  const [currentMessage, setCurrentMessage] = useState<Message | null>(null);
 
   useEffect(() => {
-    console.info("Setting up subscription");
+    console.debug("Setting up subscription");
     const unsubscribe = onSnapshot(
       doc(db(), "messages", "newest"),
       (fetchedData) => {
-        const message = fetchedData.data()?.message;
-        console.info("Message updates", { doc: fetchedData, message });
-        setCurrentMessage(message);
+        const message = fetchedData.data();
+        console.debug("Message updates", { doc: fetchedData, message });
+        if (validateMessage(message)) {
+          setCurrentMessage(message);
+        }
       }
     );
     return () => {
-      console.info("Unsubscribing");
+      console.debug("Unsubscribing");
       unsubscribe();
     };
   });
