@@ -1,3 +1,4 @@
+import { fromUnixTime } from "date-fns";
 import {
   getFirestore,
   doc,
@@ -11,13 +12,28 @@ import { isNotNullOrUndefined } from "@/utils/is-not-null-or-undefined";
 
 const db = () => getFirestore(firebaseApp);
 
+type RawMessage = {
+  message: string;
+  timestamp: {
+    nanoseconds: number;
+    seconds: number;
+  };
+};
+
 type Message = {
   message: string;
   timestamp: Date;
 };
 
-function validateMessage(data: DocumentData | undefined): data is Message {
+function validateMessage(data: DocumentData | undefined): data is RawMessage {
   return isNotNullOrUndefined(data) && "message" in data && "timestamp" in data;
+}
+
+function parseMessage(message: RawMessage): Message {
+  return {
+    ...message,
+    timestamp: fromUnixTime(message.timestamp.seconds),
+  };
 }
 
 export function useMessageSubscription() {
@@ -31,7 +47,8 @@ export function useMessageSubscription() {
         const message = fetchedData.data();
         console.debug("Message updates", { doc: fetchedData, message });
         if (validateMessage(message)) {
-          setCurrentMessage(message);
+          const parsedMessage = parseMessage(message);
+          setCurrentMessage(parsedMessage);
         }
       }
     );
