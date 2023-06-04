@@ -9,7 +9,6 @@ import {
   Button,
   Avatar,
   Tooltip,
-  Snackbar,
 } from "@mui/material";
 import { useState } from "react";
 import Image from "next/image";
