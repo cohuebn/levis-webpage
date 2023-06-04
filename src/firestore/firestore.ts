@@ -3,6 +3,7 @@ import {
   getFirestore,
   doc,
   onSnapshot,
+  updateDoc,
   DocumentData,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -36,6 +37,14 @@ function parseMessage(message: RawMessage): Message {
   };
 }
 
+/**
+ * Get the "newest" message from firebase (needed to update the record)
+ * @returns The "newest" message doc from firebase
+ */
+function getNewestMessageDoc() {
+  return doc(db(), "messages", "newest");
+}
+
 export function useMessageSubscription() {
   const [currentMessage, setCurrentMessage] = useState<Message | null>(null);
 
@@ -56,7 +65,20 @@ export function useMessageSubscription() {
       console.debug("Unsubscribing");
       unsubscribe();
     };
-  });
+  }, []);
 
   return currentMessage;
+}
+
+/**
+ * Send a message to firestore as the "newest" message document
+ * @param message The message to send
+ */
+export async function sendMessageToFirestore(message: string) {
+  const messageUpdates: Partial<Message> = {
+    message,
+    timestamp: new Date(),
+  };
+  await updateDoc(getNewestMessageDoc(), messageUpdates);
+  console.debug("Updated newest message doc", { messageUpdates });
 }
