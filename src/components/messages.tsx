@@ -1,9 +1,10 @@
 import { sub, isAfter } from "date-fns";
-import { useMessageSubscription } from "@/firestore/firestore";
 import { Button, IconButton, Snackbar } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import React, { useCallback, useState } from "react";
+
 import { isNotNullOrUndefined } from "@/utils/is-not-null-or-undefined";
-import React, { useState } from "react";
+import { useMessageSubscription } from "@/firestore/firestore";
 
 function isMessageNewish(messageTimestamp: Date) {
   const now = new Date();
@@ -18,17 +19,17 @@ export function Messages() {
     string | undefined
   >();
 
-  function handleCloseMessage() {
+  const handleCloseMessage = useCallback(() => {
     setLastClosedMessage(currentMessage?.message);
-  }
+  }, [currentMessage?.message]);
 
-  function showMessage() {
-    return (
+  const showMessage = useCallback(
+    () =>
       isNotNullOrUndefined(currentMessage) &&
       currentMessage.message !== lastClosedMessage &&
-      isMessageNewish(currentMessage.timestamp)
-    );
-  }
+      isMessageNewish(currentMessage.timestamp),
+    [currentMessage, lastClosedMessage]
+  );
 
   const closeAction = (
     <>

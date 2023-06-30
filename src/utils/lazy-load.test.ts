@@ -5,6 +5,7 @@ describe("lazyLoad", () => {
   const expectedResponse =
     "im expensive. if you can't handle me at my worst, you don't deserve me at my best";
   const getValue = () => {
+    // eslint-disable-next-line no-plusplus
     initializeCount++;
     return expectedResponse;
   };
