@@ -8,10 +8,10 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-import { firebaseApp } from "./firebaseApp";
+import { getFirebaseApp } from "./firebaseApp";
 import { isNotNullOrUndefined } from "@/utils/is-not-null-or-undefined";
 
-const db = () => getFirestore(firebaseApp);
+const db = () => getFirestore(getFirebaseApp());
 
 type RawMessage = {
   message: string;
