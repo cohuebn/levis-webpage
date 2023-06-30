@@ -15,6 +15,7 @@ import Image from "next/image";
 import { Send } from "@mui/icons-material";
 
 import { Messages } from "@/components/messages";
+import { CurrentUser } from "@/components/current-user";
 
 type CharacterOption = {
   label: string;
@@ -97,7 +98,7 @@ export default function Index() {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Mario Picker
           </Typography>
-          {isLoggedIn ? (
+          {/* {isLoggedIn ? (
             <Tooltip title="Levi Huebner">
               <Avatar alt="Levi Huebner" src="/levi.jpg" />
             </Tooltip>
@@ -105,7 +106,8 @@ export default function Index() {
             <Button color="inherit" onClick={handleLogin}>
               Login
             </Button>
-          )}
+          )} */}
+          <CurrentUser onChange={(user) => console.log({ user })} />
         </Toolbar>
       </AppBar>
       <Container maxWidth="sm">

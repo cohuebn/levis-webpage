@@ -1,14 +1,24 @@
 import { Avatar, Button, IconButton, Menu, MenuItem } from "@mui/material";
 import { User } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { signInWithGoogle } from "@/firebase/auth";
 import { getSessionUser, setSessionUser } from "@/utils/user-session";
 
-export function CurrentUser() {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+type CurrentUserProps = {
+  onChange?: (user: User | null) => void;
+};
+
+export function CurrentUser({ onChange }: CurrentUserProps) {
+  const [currentUser, setCurrentUser] = useState<User | null>(getSessionUser());
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const userMenuOpen = Boolean(anchorEl);
+  const _onChange = useCallback(
+    (user: User | null) => {
+      if (onChange) onChange(user);
+    },
+    [onChange]
+  );
 
   useEffect(() => {
     const sessionUser = getSessionUser();
@@ -21,6 +31,7 @@ export function CurrentUser() {
     const { user } = await signInWithGoogle();
     setSessionUser(user);
     setCurrentUser(user);
+    _onChange(user);
   }
 
   const handleUserClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,6 +45,7 @@ export function CurrentUser() {
   const handleLogout = () => {
     setSessionUser(null);
     setCurrentUser(null);
+    _onChange(null);
     closeMenu();
   };
 

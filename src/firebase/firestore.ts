@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 
 import { getFirebaseApp } from "./firebaseApp";
 import { isNotNullOrUndefined } from "@/utils/is-not-null-or-undefined";
+import { getSessionUser } from "@/utils/user-session";
 
 const db = () => getFirestore(getFirebaseApp());
 
@@ -19,11 +20,13 @@ type RawMessage = {
     nanoseconds: number;
     seconds: number;
   };
+  from?: string;
 };
 
 type Message = {
   message: string;
   timestamp: Date;
+  from?: string;
 };
 
 function validateMessage(data: DocumentData | undefined): data is RawMessage {
@@ -78,6 +81,7 @@ export async function sendMessageToFirestore(message: string) {
   const messageUpdates: Partial<Message> = {
     message,
     timestamp: new Date(),
+    from: getSessionUser()?.email ?? undefined,
   };
   await updateDoc(getNewestMessageDoc(), messageUpdates);
   console.debug("Updated newest message doc", { messageUpdates });
