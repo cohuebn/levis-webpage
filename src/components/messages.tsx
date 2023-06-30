@@ -4,7 +4,7 @@ import { Close } from "@mui/icons-material";
 import React, { useCallback, useState } from "react";
 
 import { isNotNullOrUndefined } from "@/utils/is-not-null-or-undefined";
-import { useMessageSubscription } from "@/firestore/firestore";
+import { useMessageSubscription } from "@/firebase/firestore";
 
 function isMessageNewish(messageTimestamp: Date) {
   const now = new Date();
