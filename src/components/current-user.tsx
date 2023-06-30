@@ -10,7 +10,7 @@ type CurrentUserProps = {
 };
 
 export function CurrentUser({ onChange }: CurrentUserProps) {
-  const [currentUser, setCurrentUser] = useState<User | null>(getSessionUser());
+  const [currentUser, setCurrentUser] = useState<User | null>();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const userMenuOpen = Boolean(anchorEl);
   const _onChange = useCallback(
