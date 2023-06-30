@@ -10,7 +10,7 @@ import {
   Avatar,
   Tooltip,
 } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import { Messages } from "@/components/messages";
 
@@ -77,20 +77,16 @@ export default function Index() {
     null
   );
   const [isLoggedIn, login] = useState<boolean>(false);
-  const [isSender, setSender] = useState<boolean>(false);
+  const [, setSender] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
 
-  function handleLogin() {
+  const handleLogin = useCallback(() => {
     login(true);
-  }
+  }, []);
 
-  function handleSendMessage() {
+  const handleSendMessage = useCallback(() => {
     setSender(true);
-  }
-
-  function handleClose() {}
-
-  function action() {}
+  }, []);
 
   return (
     <>
