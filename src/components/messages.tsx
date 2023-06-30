@@ -9,7 +9,6 @@ import { useMessageSubscription } from "@/firebase/firestore";
 function isMessageNewish(messageTimestamp: Date) {
   const now = new Date();
   const newish = sub(now, { minutes: 1 });
-  console.log({ messageTimestamp, newish });
   return isAfter(messageTimestamp, newish);
 }
 

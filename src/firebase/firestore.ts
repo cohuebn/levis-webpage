@@ -57,7 +57,6 @@ export function useMessageSubscription() {
       doc(db(), "messages", "newest"),
       (fetchedData) => {
         const message = fetchedData.data();
-        console.debug("Message updates", { doc: fetchedData, message });
         if (validateMessage(message)) {
           const parsedMessage = parseMessage(message);
           setCurrentMessage(parsedMessage);
