@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 
 import { Messages } from "@/components/messages";
 import { CharacterOption, characterOptions } from "@/data/characters";
+import { sendMessageToFirestore } from "@/firebase/firestore";
 
 export default function Index() {
   const router = useRouter();
@@ -47,7 +48,8 @@ export default function Index() {
 
   const handleSendMessage = useCallback(() => {
     setSender(true);
-  }, []);
+    sendMessageToFirestore(message);
+  }, [message]);
 
   const onCharacterChange = useCallback(
     (character: CharacterOption | null) => {

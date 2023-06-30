@@ -20,13 +20,13 @@ type RawMessage = {
     nanoseconds: number;
     seconds: number;
   };
-  from?: string;
+  from?: string | null;
 };
 
 type Message = {
   message: string;
   timestamp: Date;
-  from?: string;
+  from?: string | null;
 };
 
 function validateMessage(data: DocumentData | undefined): data is RawMessage {
@@ -80,7 +80,7 @@ export async function sendMessageToFirestore(message: string) {
   const messageUpdates: Partial<Message> = {
     message,
     timestamp: new Date(),
-    from: getSessionUser()?.email ?? undefined,
+    from: getSessionUser()?.email ?? null,
   };
   await updateDoc(getNewestMessageDoc(), messageUpdates);
   console.debug("Updated newest message doc", { messageUpdates });
