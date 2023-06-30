@@ -12,6 +12,8 @@ import {
 } from "@mui/material";
 import { useCallback, useState } from "react";
 import Image from "next/image";
+import { Send } from "@mui/icons-material";
+
 import { Messages } from "@/components/messages";
 
 type CharacterOption = {
@@ -109,10 +111,10 @@ export default function Index() {
       <Container maxWidth="sm">
         <Box sx={{ marginTop: 4 }}>
           <Autocomplete
-            id="character name"
+            id="character-name"
             options={options}
             renderInput={(params) => (
-              <TextField {...params} label="character name" variant="filled" />
+              <TextField {...params} label="Character name" variant="filled" />
             )}
             onChange={(
               _event: unknown,
@@ -120,15 +122,19 @@ export default function Index() {
             ) => {
               selectCharacter(newCharacter);
             }}
+            isOptionEqualToValue={(option, value) =>
+              option.label === value.label
+            }
           />
           {selectedCharacter ? (
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Image
                 src={selectedCharacter.source}
                 alt={selectedCharacter.label}
-                width={300} // Overridden by style
-                height={300}
-                style={{ marginTop: "4rem", width: "auto" }}
+                // Both modified by style to keep aspect ratio
+                width={300}
+                height={301}
+                style={{ marginTop: "4rem", width: "auto", height: "300px" }}
               />
             </div>
           ) : (
@@ -136,16 +142,25 @@ export default function Index() {
           )}
           <TextField
             id="filled-basic"
-            label="Filled"
+            label="Message"
             variant="filled"
             multiline
+            fullWidth
             maxRows={5}
             value={message}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               setMessage(event.target.value);
             }}
+            sx={{ marginTop: 2 }}
           />
-          <Button onClick={handleSendMessage}>Open simple snackbar</Button>
+          <Button
+            variant="contained"
+            onClick={handleSendMessage}
+            sx={{ marginTop: 2 }}
+          >
+            <Send />
+            Send
+          </Button>
 
           <Messages />
         </Box>
